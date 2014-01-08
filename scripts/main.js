@@ -223,6 +223,9 @@ require([
     }
 
 
+    /**
+     * Simulate
+     */
     function simulate(mode, simulationEnv) {
         // reload texture
         
@@ -267,7 +270,6 @@ require([
 
         seeds.forEach(function (v, k) {
             v = v || {};
-//            console.log(v.scatter);
             scatter[k] = v.scatter || 0;
             size[k] = v.size || 0;
             if (v.position) {

@@ -1,5 +1,3 @@
-//(function () {
-
 var SimulationEnv = function (nSeeds) {
     this.nSeeds = nSeeds;
     this.splats = [];
@@ -84,6 +82,3 @@ SimulationEnv.prototype.backgroundColorB = function (color) {
 
 
 exports.SimulationEnv = SimulationEnv;
-
-
-//});

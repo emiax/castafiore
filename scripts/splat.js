@@ -13,8 +13,6 @@ var Splat = function (spec) {
     this.size = spec.size;
     this.scatter = spec.scatter;
     this.framesLeft = this.duration;
-    
-    // include color (and gradients?) later?
 }
 
 
@@ -27,11 +25,8 @@ Splat.prototype.emit = function () {
         y: this.startPosition.y + this.velocity.y*currentFrame,
     };
     var amount = this.totalAmount / this.duration;
-//    console.log(this.framesLeft);
     this.framesLeft--;
 
-//    console.log(amount);
-    
     return {
         scatter: scatter, 
         size: size,

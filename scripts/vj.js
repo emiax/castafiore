@@ -12,6 +12,7 @@ require([
         stats.domElement.style.position = 'fixed';
         stats.domElement.style.right = '0px';
         stats.domElement.style.bottom = '0px';
+
         // uncomment to view stats.
         // document.body.appendChild( stats.domElement );
 

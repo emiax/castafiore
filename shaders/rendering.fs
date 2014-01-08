@@ -131,38 +131,23 @@ void main(void) {
   vec4 enhancedColor = color;
 
   vec2 coord0 = vTextureCoordinates;
-  enhancedColor.a = clamp(color.a*(2.0 + 0.2*snoise(vec3(coord0*20.0, time*0.2))), 0.0, 1.1);
+  enhancedColor.a = clamp(color.a*(4.0 + 0.2*snoise(vec3(coord0*20.0, time*0.2))), 0.0, 1.1);
 
-  
-  //  gl_FragColor = vec4(0.2, 0.2, 0.3, 1.0);
+  float pixelWidth = 1.0/windowSize.x;
+  float pixelHeight = 1.0/windowSize.y;
 
-  
-  float pixelSize = 1.0/1024.0;
-
-
-  vec4 sampleA0 = texture2D(simulation, vec2(coord0.x - pixelSize, coord0.y));
-  vec4 sample0A = texture2D(simulation, vec2(coord0.x, coord0.y - pixelSize));
-  vec4 sample0B = texture2D(simulation, vec2(coord0.x, coord0.y + pixelSize));
-  vec4 sampleB0 = texture2D(simulation, vec2(coord0.x + pixelSize, coord0.y));
+  vec4 sampleA0 = texture2D(simulation, vec2(coord0.x - pixelWidth, coord0.y));
+  vec4 sample0A = texture2D(simulation, vec2(coord0.x, coord0.y - pixelHeight));
+  vec4 sample0B = texture2D(simulation, vec2(coord0.x, coord0.y + pixelHeight));
+  vec4 sampleB0 = texture2D(simulation, vec2(coord0.x + pixelWidth, coord0.y));
 
   float derX = sampleA0.a - sampleB0.a;
   float derY = sample0A.a - sample0B.a;
 
 
   vec2 backgroundCoord = coord0 - 0.08*vec2(derX, derY);
-
-  
-  /*  float fractal =  1.0*snoise(vec3(coord0*5.0, 0.42));
-  fractal += 0.5*snoise(vec3(coord0*10.0, 0.28));
-  fractal += 0.25*snoise(vec3(coord0*20.0, 3.28));*/
-
-  //  vec4 backgroundColorA = vec4(0.15, 0.15, 0.14, 1.0);
-  // vec4 backgroundColorB = vec4(0.09, 0.09, 0.09, 1.0);
-  //  vec4 backgroundColorB = vec4(mix(backgroundColor2, backgroundColor3, fractal), 1.0);
-
   
   vec4 backgroundColor = mix(backgroundColorA, backgroundColorB, smoothstep(-2.0, 2.0, cos((backgroundCoord.y*windowSize.y + backgroundCoord.x*windowSize.x))*sin((backgroundCoord.x*windowSize.x-backgroundCoord.y*windowSize.y))));
-  
   
   float diffuse = clamp(derX - derY, -1.0, 1.0);
   
@@ -172,9 +157,8 @@ void main(void) {
   gl_FragColor.rgb *= 1.0 - pow(0.8*length(coord0 -  vec2(0.5, 0.5)), 2.8);
   gl_FragColor.rgb *= 0.95 + 0.05*snoise(vec3(windowSize*coord0, 2.4));
 
-
-  /* debug code
-  if (coord0.x > 0.5) {
+  //   debug code      
+  /* if (coord0.x > 0.5) {
     if (coord0.y > 0.66) {
       // top
       gl_FragColor = vec4(color.a, color.a, color.a, 1.0);
@@ -188,13 +172,4 @@ void main(void) {
     }
   */
 
-
 }
-
-
-
-/// TODO: blur, normal calculation, fresnel based shading?
-/// TODO: Get rid of erasing color. 
-/// TODO: Try uning coord2.
-/// TODO: Normal blening mode instead of subtract.
-/// TODO: A nicer way to do splashes.
